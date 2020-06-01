@@ -33,3 +33,4 @@ define('ALLEGRO_IMPORTER_FILE', __FILE__);
 
 
 include_once "includes/ai-admin-menu.php";
+include_once "includes/ai-admin-wc-settings.php";
