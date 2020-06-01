@@ -6,7 +6,10 @@ class AI_Admin_Menu {
 
 	public function __construct(){
 
+		include_once('api/allegro-api.php');
+
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_page_scripts' ) );
 
 	}
 
@@ -22,7 +25,37 @@ class AI_Admin_Menu {
 	}
 
 	public function admin_page(){
-		echo "Hello World";
+		include_once("templates/admin-page-layout.php");
+	}
+
+	public function admin_page_scripts()
+	{
+		wp_register_style( 
+			'flexboxgrid', 
+			'https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css' 
+		);
+
+		wp_enqueue_style('flexboxgrid');
+
+		wp_register_script(
+			'ai-main-js',
+			plugins_url('assets/js/main.js', ALLEGRO_IMPORTER_FILE),
+			array('jquery'),
+			false,
+			true
+		);
+
+		wp_localize_script( 
+			'ai-main-js', 
+			'ai_params', 
+			array(
+				'name' => get_option('allegro_business_name'),
+				'client_id' => get_option( 'allegro_client_id' ),
+				'client_secret' => get_option( 'allegro_client_secret' ),
+			)
+		);
+		
+		wp_enqueue_script( 'ai-main-js');
 	}
 
 }
