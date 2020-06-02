@@ -7,6 +7,7 @@ class Allegro_API {
     private $url = "https://api.allegro.pl";
     private $client_id;
     private $client_secret;
+    private $access_token;
 
     public static $instance = null;
 
@@ -14,6 +15,7 @@ class Allegro_API {
 
         $this->client_id = get_option('allegro_client_id');
         $this->client_secret = get_option('allegro_client_secret');
+        $this->access_token = $this->get_access_token()->access_token;
     }
 
     public static function instance(){
@@ -24,17 +26,29 @@ class Allegro_API {
         return self::$instance;
     } 
 
+    public function get_access_token(){
+
+        $request = wp_remote_post( 
+            'https://allegro.pl/auth/oauth/token?grant_type=client_credentials',
+            array(
+                "headers" => array(
+                    "Authorization" => 'Basic '.base64_encode($this->client_id.":".$this->client_secret)
+                )
+            )
+        );
+        return json_decode(wp_remote_retrieve_body( $request ));
+    }
+
     public function get_categories(){
         $request = wp_remote_get( 
-            'https://api.allegro.pl/sale/categories',
+            $this->url.'/sale/categories',
             array(
                 'headers' => array(
                     'Accept' => 'application/vnd.allegro.public.v1+json',
-                    'Authorization' => 'Bearer ' + base64_encode($this->client_id.":".$this->client_secret)
+                    'Authorization' => 'Bearer '.$this->access_token
                 )
             ) 
         );
-
-        return wp_remote_retrieve_body( $request );
+        return json_decode(wp_remote_retrieve_body( $request ));
     }
 }

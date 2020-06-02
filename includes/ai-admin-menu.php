@@ -31,17 +31,24 @@ class AI_Admin_Menu {
 	public function admin_page_scripts()
 	{
 		wp_register_style( 
-			'flexboxgrid', 
-			'https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css' 
+			'bulmacss', 
+			'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' 
 		);
 
-		wp_enqueue_style('flexboxgrid');
+		wp_enqueue_style('bulmacss');
 
 		wp_register_script(
 			'ai-main-js',
 			plugins_url('assets/js/main.js', ALLEGRO_IMPORTER_FILE),
 			array('jquery'),
 			false,
+			true
+		);
+		wp_register_script(
+			'ai-fontawesome-js',
+			'https://use.fontawesome.com/releases/v5.3.1/js/all.js',
+			array(),
+			'5.3.1',
 			true
 		);
 
@@ -55,6 +62,7 @@ class AI_Admin_Menu {
 			)
 		);
 		
+		wp_enqueue_script( 'ai-fontawesome-js');
 		wp_enqueue_script( 'ai-main-js');
 	}
 

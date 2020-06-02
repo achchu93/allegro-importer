@@ -1,12 +1,14 @@
-<div class="wrap">
-	<h2>Allegro Importer</h2>
+<section class="wrap">
+	<h2 class="is-size-3">Allegro Importer</h2>
 
-	<div class="row">
-		<div class="col-xs-5">
-			<?php include_once("admin-page-sidebar.php") ?>
-		</div>
-		<div class="col-7">
-			
+	<div class="container has-background-white" style="margin-top:15px; padding: 1.5rem;">
+		<div class="columns">
+			<div class="is-two-fifths">
+				<?php include_once("admin-page-sidebar.php") ?>
+			</div>
+			<div class="is-two-fifths">
+				
+			</div>
 		</div>
 	</div>
-</div>
+</section>
