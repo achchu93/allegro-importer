@@ -1,10 +1,21 @@
-<?php $categories = Allegro_API::instance()->get_categories(); ?>
+<?php 
+$tokens = get_option('allegro_tokens');
+if(empty($tokens) || empty($tokens->access_token)){
+	exit();
+}
+
+use AsocialMedia\AllegroApi\AllegroRestApi;
+$restApi  = new AllegroRestApi($tokens->access_token); 
+$response = $restApi->get('/sale/categories');
+
+$categories = !empty($response->categories) ? $response->categories : [];
+?>
 
 <div class="container">
 	<h3 class="is-size-5 border-heading"><?php _e( "Categories", "allegro-import" ); ?></h3>
-	<?php if( count($categories->categories) ):  ?>
+	<?php if( count($categories) ):  ?>
 	<ul>
-	<?php foreach($categories->categories as $category): ?>
+	<?php foreach($categories as $category): ?>
 	<li>
 		<label class="checkbox">
 		<input type="checkbox" value="<?php echo $category->id; ?>" />

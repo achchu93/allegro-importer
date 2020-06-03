@@ -31,6 +31,6 @@ if( !in_array( 'woocommerce/woocommerce.php', apply_filters('active_plugins', ge
 
 define('ALLEGRO_IMPORTER_FILE', __FILE__);
 
-
+include_once "vendor/allegro-api/AllegroRestApi.php";
 include_once "includes/ai-admin-menu.php";
 include_once "includes/ai-admin-wc-settings.php";
