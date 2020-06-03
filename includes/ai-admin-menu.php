@@ -6,11 +6,8 @@ class AI_Admin_Menu {
 
 	public function __construct(){
 
-		include_once('api/allegro-api.php');
-
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_page_scripts' ) );
-
 	}
 
 	public function admin_menu(){
@@ -30,6 +27,7 @@ class AI_Admin_Menu {
 
 	public function admin_page_scripts()
 	{
+		wp_enqueue_registered_block_scripts_and_styles();
 		wp_register_style( 
 			'bulmacss', 
 			'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' 
@@ -40,7 +38,7 @@ class AI_Admin_Menu {
 		wp_register_script(
 			'ai-main-js',
 			plugins_url('assets/js/main.js', ALLEGRO_IMPORTER_FILE),
-			array('jquery'),
+			array('jquery', 'jquery-blockui'),
 			false,
 			true
 		);
