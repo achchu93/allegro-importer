@@ -11,12 +11,12 @@ $response = $restApi->get('/sale/categories');
 $categories = !empty($response->categories) ? $response->categories : [];
 ?>
 
-<div class="container">
-	<h3 class="is-size-5 border-heading"><?php _e( "Categories", "allegro-import" ); ?></h3>
+<div class="container sidebar menu">
+	<h3 class="is-size-5 has-text-weight-semibold border-heading"><?php _e( "Categories", "allegro-import" ); ?></h3>
 	<?php if( count($categories) ):  ?>
-	<ul>
+	<ul class="filter-container menu-list">
 	<?php foreach($categories as $category): ?>
-	<li>
+	<li class="category-item" data-category-id="<?php echo $category->id; ?>">
 		<label class="checkbox">
 		<input type="checkbox" value="<?php echo $category->id; ?>" />
 		<?php echo $category->name; ?>
@@ -26,11 +26,10 @@ $categories = !empty($response->categories) ? $response->categories : [];
 	</ul>
 	<?php endif; ?>
 
-	<hr />
-	<h3 class="is-size-5 border-heading"><?php _e( "Filters", "allegro-import" ); ?></h3>
+	<h3 class="is-size-5 has-text-weight-semibold border-heading"><?php _e( "Filters", "allegro-import" ); ?></h3>
 
-	<h4 class="is-size-6 filter-heading"><?php _e( "State", "allegro-import" ); ?></h4>
-	<ul class="menu-list">
+	<h4 class="is-size-6 filter-heading has-text-weight-medium"><?php _e( "State", "allegro-import" ); ?></h4>
+	<ul class="filter-container">
 		<li>
 			<label class="checkbox">
 				<input type="checkbox" value="new" />
@@ -51,8 +50,8 @@ $categories = !empty($response->categories) ? $response->categories : [];
 		</li>
 	</ul>
 
-	<h4 class="is-size-6 filter-heading"><?php _e( "Type of offer", "allegro-import" ); ?></h4>
-	<ul class="menu-list">
+	<h4 class="is-size-6 filter-heading has-text-weight-medium"><?php _e( "Type of offer", "allegro-import" ); ?></h4>
+	<ul class="filter-container">
 		<li>
 			<label class="checkbox">
 				<input type="checkbox" value="buynow" />
@@ -67,20 +66,24 @@ $categories = !empty($response->categories) ? $response->categories : [];
 		</li>
 	</ul>
 
-	<h4 class="is-size-6 filter-heading"><?php _e( "Price", "allegro-import" ); ?></h4>
-	<div class="field has-addons has-icons-left">
+	<h4 class="is-size-6 filter-heading has-text-weight-medium"><?php _e( "Price", "allegro-import" ); ?></h4>
+	<div class="field has-addons has-icons-left filter-container">
   		<div class="control">
     		<input class="input" type="number" placeholder="From">
   		</div>
 		<div class="control">
-			<a class="button is-static">-</a>
+			<a class="button is-static">
+				<span class="icon is-large">
+      				<i class="fas fa-minus"></i>
+    			</span>
+			</a>
 		</div>
 		<div class="control">
     		<input class="input" type="number" placeholder="To">
   		</div>
 	</div>
 
-	<h4 class="is-size-6 filter-heading"><?php _e( "Delivery methods", "allegro-import" ); ?></h4>
+	<h4 class="is-size-6 filter-heading has-text-weight-medium"><?php _e( "Delivery methods", "allegro-import" ); ?></h4>
 	<ul class="menu-list">
 		<li>
 			<label class="checkbox">
@@ -95,4 +98,6 @@ $categories = !empty($response->categories) ? $response->categories : [];
 			</label>
 		</li>
 	</ul>
+
+	<button class="button is-primary is-normal" id="filter-btn">Apply Filter</button>
 </div>

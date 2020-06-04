@@ -1,13 +1,35 @@
-<section class="wrap">
+<section id="allegro-container" class="wrap">
 	<h2 class="is-size-3">Allegro Importer</h2>
 
-	<div class="container has-background-white" style="margin-top:15px; padding: 1.5rem;">
+	<div class="container is-fluid has-background-white" style="padding-top:16px; padding-bottom:16px;margin-top:20px;">
+		<div class="field is-grouped">
+  			<div class="control field has-addons has-addons-right">
+				<p class="control">
+					<input class="input" type="text" placeholder="Price">
+				</p>
+				<p class="control">
+					<a class="button">
+						<span class="icon is-small is-right">
+							<i class="fas fa-percentage"></i>
+						</span>
+					</a>
+				</p>
+			</div>
+			<p class="control">
+				<button class="button is-info">Import</button>
+			</p>
+		</div>
+	</div>
+
+	<div class="container is-fluid has-background-white" style="margin-top:15px; padding: 1.5rem;">
 		<div class="columns">
-			<div class="is-two-fifths">
+			<div class="column is-one-quarter">
 				<?php include_once("admin-page-sidebar.php") ?>
 			</div>
-			<div class="is-two-fifths">
-				
+			<div class="column is-three-quarters">
+				<div id="grids">
+
+				</div>
 			</div>
 		</div>
 	</div>

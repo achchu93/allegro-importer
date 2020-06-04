@@ -2,30 +2,77 @@
 
 	$(function () {
 
-		loadCategories().then(function(response){
-			console.log(response);
+		var activeCategory;
+
+		$('.filter-container').on('change','.category-item [type=checkbox]', function(e){
+			if($(this).is(":checked")){
+				var categoryItem = $(this).parents(".category-item").first();
+				var categoryId = categoryItem.data("category-id");
+				var parentCatId = $('[data-category-id="' + categoryId + '"]').parents('[data-category-parent]').last().data('category-parent');
+
+				activeCategory = categoryId;
+
+				if (categoryItem.find('.child-categories').length || categoryItem.data('leaf')){
+					return;
+				}
+
+				$('.category-item [type=checkbox]')
+					.not(jQuery('.category-item[data-category-id="' + (parentCatId ? parentCatId : categoryId) +'"] [type=checkbox]'))
+					.prop('checked', false);
+
+				$.ajax({
+					url: ajaxurl,
+					method: 'POST',
+					data: {
+						action: 'get_allegro_categories',
+						category: categoryId
+					}
+				}).then(function (response) {
+					if(response.categories.length){
+						var source = $("#temp-child-categories").html();
+						var template = Handlebars.compile(source);
+
+						categoryItem.append(template({ categoryId: categoryId, categories: response.categories }));
+					}
+				});
+			}
 		});
 
-	});
+		$('#filter-btn').on('click', function(e){
+			var checkedCategories = $('.category-item [type=checkbox]:checked');
 
-	$.ajaxSetup({
-		headers: {
-			//url: 'https://api.allegro.pl',
-			"Content-type": 'application/vnd.allegro.public.v1+json',
-			Accept: 'application/vnd.allegro.public.v1+json',
-			Authorization: 'Bearer ' + btoa(ai_params.client_id + ':' + ai_params.client_secret),
-			// "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization",
-			//"Access-Control-Allow-Origin": "*",
-			// "Access-Control-Allow-Methods": 'GET',
-			// "Access-Control-Allow-Headers": 'Access-Control-Allow-Origin, Access-Control-Allow-Methods, Accept, Authorization'
-		}
-	});
+			if(!checkedCategories.length){
+				alert("category should be selected");
+				return;
+			}
 
-	function loadCategories(){
-		return $.ajax({
-			url: 'https://api.allegro.pl/sale/categories'
+			var activeCatEl = $('.category-item[data-category-id=' + activeCategory + ']');
+			if (!activeCatEl.length || !activeCatEl.parent().hasClass('child-categories')){
+				alert("select a child category. Root level category doesnt have items");
+				return;
+			}
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: {
+					action: "get_allegro_offers",
+					filters: "category.id="+activeCategory
+				}
+			}).then(function(response){
+				var list = "";
+				if(response.items.promoted.length){
+					$.each(response.items.promoted, function(i, product){
+						var source = $("#temp-product-grid").html();
+						var template = Handlebars.compile(source);
+						list += template(product);
+					});
+
+					$("#grids").html("").html(list);
+				}
+			});
 		});
-	}
+	});
 
 
 }(window.jQuery));
