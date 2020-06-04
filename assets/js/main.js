@@ -72,6 +72,16 @@
 				}
 			});
 		});
+
+		$('#select-all').on('click', function(){
+
+			$(".offer-id").prop("checked", $(this).hasClass('is-light')).trigger('change');
+			$(this).toggleClass('is-light');
+		});
+
+		$('#grids').on('change', '.offer-id', function(){
+			$('#import').toggleClass('is-light', !$('.offer-id:checked').length)
+		});
 	});
 
 

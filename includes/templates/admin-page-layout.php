@@ -16,7 +16,10 @@
 				</p>
 			</div>
 			<p class="control">
-				<button class="button is-info">Import</button>
+				<button id="import" class="button is-info is-light">Import</button>
+			</p>
+			<p class="control">
+				<button id="select-all" class="button is-info is-light">Select All</button>
 			</p>
 		</div>
 	</div>

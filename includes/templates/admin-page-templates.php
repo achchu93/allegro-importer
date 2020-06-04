@@ -12,7 +12,8 @@
 </script>
 
 <script type="text/template" id="temp-product-grid">
-	<div class="box" id="{{id}}">
+	<div class="box product-grid" id="{{id}}">
+		<input type="checkbox" value="{{id}}" class="offer-id">
 		<article class="media">
 			<div class="media-left">
 				<figure class="image is-128x128">
