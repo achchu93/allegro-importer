@@ -82,6 +82,23 @@
 		$('#grids').on('change', '.offer-id', function(){
 			$('#import').toggleClass('is-light', !$('.offer-id:checked').length)
 		});
+
+		$('#import').on('click', function(e){
+
+			var ids = $('.offer-id:checked').map(function (i, el) {
+				return $(el).val();
+			}).toArray();
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: {
+					action: 'import_allegro_products',
+					product_ids: ids
+				},
+				timeout: 60000
+			});
+		});
 	});
 
 

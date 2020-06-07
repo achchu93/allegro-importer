@@ -1,0 +1,14 @@
+{
+    "name": "achchu/allegro-importer",
+    "description": "An importer of Allegro",
+    "type": "project",
+    "require": {
+        "fabpot/goutte": "^4.0"
+    },
+    "authors": [
+        {
+            "name": "achchu93",
+            "email": "achchu.zats@gmail.com"
+        }
+    ]
+}

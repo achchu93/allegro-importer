@@ -32,6 +32,10 @@ class AI_Admin_Menu {
 			'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' 
 		);
 		wp_register_style( 
+			'bulmacss-accordion', 
+			'https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/bulma-accordion/dist/css/bulma-accordion.min.css' 
+		);
+		wp_register_style( 
 			'ai-main-css',
 			plugins_url('assets/css/main.css', ALLEGRO_IMPORTER_FILE)
 		);
@@ -49,6 +53,13 @@ class AI_Admin_Menu {
 		wp_register_script(
 			'handlebars-js',
 			'https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js',
+			array(),
+			false,
+			true
+		);
+		wp_register_script(
+			'bulma-accordion-js',
+			'https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/js/bulma-extensions.min.js',
 			array(),
 			false,
 			true
