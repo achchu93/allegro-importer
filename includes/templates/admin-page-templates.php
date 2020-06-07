@@ -30,3 +30,14 @@
 		</article>
 	</div>
 </script>
+
+<script type="text/template" id="temp-import-url">
+	<div class="tags has-addons">
+		{{#if url}}
+		<span class="tag is-success">Imported</span>
+		<span class="tag is-success is-light"><a href="{{url}}">View</a></span>
+		{{else}}
+		<span class="tag is-danger">Import Failed!</span>
+		{{/if}}
+    </div>
+</script>

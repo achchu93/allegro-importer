@@ -33,8 +33,7 @@ class AI_Admin_Ajax {
 
 	public function get_allegro_offers(){
 		
-		$endpoint = !empty($_POST['filters']) ? "/offers/listing?".$_POST['filters'] : "/offers/listing";
-		error_log($endpoint);
+		$endpoint = !empty($_POST['filters']) ? "/offers/listing?limit=10&".$_POST['filters'] : "/offers/listing";
 
 		wp_send_json( $this->api->get( $endpoint ) );
 	}
@@ -50,6 +49,7 @@ class AI_Admin_Ajax {
 	public function import_allegro_products(){
 
 		$ids      = $_POST['product_ids'];
+		$price    = $_POST['price'];
 		$products = array();
 
 		foreach($ids as $id){
@@ -69,9 +69,16 @@ class AI_Admin_Ajax {
 				$original_price = floatval( str_replace( ",", ".", $summary->price->originalPrice ) );
 				$regular_price = floatval( $summary->schema->price );
 
+				if( !empty($price) ){
+
+					$add = floatval($price);
+					$original_price += $add ? ( $add/100 * ( $original_price ) ) : 0;
+					$regular_price += $add ? ( $add/100 * ( $regular_price ) ) : 0;
+				}
+
 				ob_start();
-				include_once("templates/product-parameters-content.php");
-				include_once("templates/product-description-content.php");
+				include("templates/product-parameters-content.php");
+				include("templates/product-description-content.php");
 				$description = ob_get_contents();
 				ob_end_clean();
 				
@@ -95,10 +102,10 @@ class AI_Admin_Ajax {
 
 			}catch(Exception $e){
 				error_log($e->get_message());
-				$products[$id] = 0;
+				$product_id = 0;
 			}
 
-			$products[$id] = $product_id;
+			$products[$id] = $product_id > 0 ? get_permalink($product_id) : false;
 		}
 
 		wp_send_json( $products );

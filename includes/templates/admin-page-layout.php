@@ -5,7 +5,7 @@
 		<div class="field is-grouped">
   			<div class="control field has-addons has-addons-right">
 				<p class="control">
-					<input class="input" type="text" placeholder="Price">
+					<input id="price-increment" class="input" type="text" placeholder="Price">
 				</p>
 				<p class="control">
 					<a class="button">

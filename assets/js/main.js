@@ -85,6 +85,11 @@
 
 		$('#import').on('click', function(e){
 
+			var loadingContainer = $("#allegro-container");
+			loadingContainer.block({
+				message: 'Importing...'
+			});
+
 			var ids = $('.offer-id:checked').map(function (i, el) {
 				return $(el).val();
 			}).toArray();
@@ -94,10 +99,25 @@
 				method: 'POST',
 				data: {
 					action: 'import_allegro_products',
-					product_ids: ids
+					product_ids: ids,
+					price: $("#price-increment").val()
 				},
 				timeout: 60000
+			}).then(function(response){
+
+				$.each(response, function(id, url){
+					var checkbox = $('.offer-id[value=' + id + ']');
+					var source = $("#temp-import-url").html();
+					var template = Handlebars.compile(source);
+
+					checkbox.prop('checked', false).trigger('change');
+					checkbox.replaceWith(template({url: url}));
+				});
+
+				loadingContainer.unblock();
 			});
+
+
 		});
 	});
 
