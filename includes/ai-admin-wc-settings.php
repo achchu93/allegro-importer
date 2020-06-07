@@ -61,7 +61,7 @@ class AI_Admin_WC_Settings {
 			'allegro_activate' => array(
 				'name' => __( 'Verify Auth', 'allegro-import' ),
 				'type' => 'allegro_activate',
-				'desc' => __( 'Verify device code by clicking this', 'allegro-import' ),
+				'desc' => __( 'Verify your credintials for the site', 'allegro-import' ),
 				'id'   => 'allegro_activate'
 			),
 			'section_end' => array(
@@ -91,9 +91,13 @@ class AI_Admin_WC_Settings {
 				$redirect_url = home_url() . add_query_arg( $wp->query_vars);
 				$client_id = get_option('allegro_client_id');
 				$client_secret = get_option('allegro_client_secret');
+				$tokens = get_option('allegro_tokens');
 
 				if ( empty($client_id) || empty($client_secret) ) : ?>
 					<P class="description" style="color:red;"><?php _e( "Client ID and Secret are must.", "allegro-import" ); ?></P>
+				<?php elseif(!empty($tokens) && $tokens->access_token): ?>
+					<button type="button" class="button" style="background-color:#4CAF50;color:#fff;border:none;vertical-align: middle;"><?php _e('Verified successfully!', 'allegro-import') ?></button>
+					<a href="<?php echo add_query_arg( "action", "revoke" ); ?>"><?php _e('Revoke', 'allegro-import'); ?></a>
 				<?php else: ?>  
 					<a class="button-secondary" href="<?php echo add_query_arg( "state", "app-allegro", AllegroRestApi::getAuthLink($client_id, admin_url("admin.php?page=wc-settings") ) ); ?>"><?php echo $field['name']; ?></a>
 					<p class="description"><?php echo $field['desc']; ?></p>
@@ -138,6 +142,25 @@ class AI_Admin_WC_Settings {
 					) 
 				);
 				die();
+			}
+
+			if( !empty($_GET['tab']) && $_GET['tab'] === 'allegro' ){
+
+				if( !empty($_GET['action']) && $_GET['action'] === 'revoke' ){
+
+					delete_option('allegro_tokens');
+					wp_redirect( 
+						add_query_arg( 
+							array(
+								'page' => 'wc-settings',
+								'tab'  => 'allegro'
+							), 
+							admin_url( 'admin.php' )
+						) 
+					);
+					die();
+				}
+
 			}
 
 		}
