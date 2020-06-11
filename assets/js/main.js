@@ -1,5 +1,7 @@
 (function($) {
 
+	registerHelpers();
+
 	$(function () {
 
 		var activeCategory;
@@ -52,12 +54,20 @@
 				return;
 			}
 
+			var filters = "category.id=" + activeCategory + "&include=all";
+			var serialized = $("#filters").find('[type=text],[type=number],[type=checkbox],[type=radio]').filter(function () {
+				return $(this).val();
+			}).serialize();
+			if( $.trim(serialized) !== '' ){
+				filters += "&"+serialized;
+			}
+
 			$.ajax({
 				url: ajaxurl,
 				method: 'POST',
 				data: {
 					action: "get_allegro_offers",
-					filters: "category.id="+activeCategory
+					filters: filters
 				}
 			}).then(function(response){
 				var list = "";
@@ -69,6 +79,15 @@
 					});
 
 					$("#grids").html("").html(list);
+				}
+
+				var filters = "";
+				if (response.filters && response.filters.length){
+					var source = $("#temp-filters").html();
+					var template = Handlebars.compile(source);
+					filters += template({ filters: response.filters});
+
+					$("#filters").html(filters);
 				}
 			});
 		});
@@ -120,6 +139,18 @@
 
 		});
 	});
+
+
+	function registerHelpers(){
+
+		Handlebars.registerHelper('ifEquals', function (a, b, options) {
+			if (a == b){
+				return options.fn(this);
+			}
+
+			return options.inverse(this);
+		});
+	}
 
 
 }(window.jQuery));

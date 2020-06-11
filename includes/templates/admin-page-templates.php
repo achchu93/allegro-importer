@@ -41,3 +41,82 @@
 		{{/if}}
     </div>
 </script>
+
+<script type="text/template" id="temp-filters">
+	{{#each filters}}
+		{{#if this.values.length}}
+			<h4 class="is-size-6 is-capitalized filter-heading has-text-weight-medium">{{ this.name }}</h4>
+			{{#ifEquals this.type "MULTI"}}
+				<ul class="filter-container">
+					{{#each this.values}}
+						<li>
+							<label class="checkbox">
+								<input name="{{../this.id}}" type="checkbox" value="{{this.value}}" {{#if this.selected}}checked {{/if}}>
+								{{this.name}}
+							</label>
+						</li>
+					{{/each}}
+				</ul>
+			{{/ifEquals}}
+			{{#ifEquals this.type "SINGLE"}}
+				<ul class="filter-container">
+					{{#each this.values}}
+						<li>
+							<label class="radio">
+								<input name="{{../this.id}}" type="radio" value="{{this.value}}" {{#if this.selected}}checked {{/if}}>
+								{{this.name}}
+							</label>
+						</li>
+					{{/each}}
+				</ul>
+			{{/ifEquals}}
+			{{#ifEquals this.type "TEXT"}}
+				<ul class=" filter-container">
+					<li>
+						<div class="control">
+							<input 
+							name="{{this.id}}" 
+							type="text" 
+							placeholder="{{this.name}}" 
+							{{#if this.values.[0].selected}} value="{{this.values.[0].value}}" {{/if}}
+							>
+						</div>
+					</li>
+				</ul>
+			{{/ifEquals}}
+			{{#ifEquals this.type "NUMERIC"}}
+				<div class="field has-addons has-icons-left filter-container">
+					<div class="control">
+						<input 
+						class="input" 
+						min="{{this.minValue}}" 
+						max="{{this.maxValue}}" 
+						name="{{this.id}}.from" 
+						type="number" 
+						placeholder="From"
+						{{#if this.values.[0].selected}} value="{{this.values.[0].value}}" {{/if}}
+						>
+					</div>
+					<div class="control">
+						<a class="button is-static">
+							<span class="icon is-large">
+								<i class="fas fa-minus"></i>
+							</span>
+						</a>
+					</div>
+					<div class="control">
+						<input 
+						class="input" 
+						min="{{this.minValue}}" 
+						max="{{this.maxValue}}" 
+						name="{{this.id}}.to" 
+						type="number" 
+						placeholder="To"
+						{{#if this.values.[1].selected}} value="{{this.values.[1].value}}" {{/if}}
+						>
+					</div>
+				</div>
+			{{/ifEquals}}
+		{{/if}}
+	{{/each}}
+</script>
