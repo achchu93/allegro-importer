@@ -70,3 +70,22 @@ function ai_create_product($data){
 
 	return $product->save();
 }
+
+function ai_get_currency_rate(){
+
+	$rate = floatval(get_option( 'allegro_currency_rate', 0 ));
+	if( empty($empty) ){
+		allegro_update_currency_rate_callback();
+		$rate = floatval(get_option( 'allegro_currency_rate', 0 ));
+	}
+
+	return $rate ? $rate : 1;
+}
+
+function ai_get_site_price($price){
+
+	$rate  = ai_get_currency_rate();
+	$rated_price = floatval($rate) * floatval($price);
+
+	return number_format( $rated_price, 2 );
+}

@@ -150,6 +150,11 @@
 
 			return options.inverse(this);
 		});
+
+		Handlebars.registerHelper('+', function (x, y) { return parseFloat(x + y).toFixed(2) });
+		Handlebars.registerHelper('-', function (x, y) { return parseFloat(x - y).toFixed(2) });
+		Handlebars.registerHelper('*', function (x, y) { return parseFloat(x * y).toFixed(2) });
+		Handlebars.registerHelper('/', function (x, y) { return parseFloat(x / y).toFixed(2) });
 	}
 
 

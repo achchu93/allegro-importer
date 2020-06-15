@@ -23,7 +23,10 @@
 			<div class="media-content">
 				<div class="content">
 					<h4 class="title is-4"><strong>{{name}}</strong></h4>
-					<h2 class="title is-2">{{sellingMode.price.amount}} {{sellingMode.price.currency}}</h2>
+					<h2 class="price-pln title is-5">
+					{{sellingMode.price.amount}} {{sellingMode.price.currency}}
+					</h2>
+					<h2 class="price-uah title is-2">{{'*' sellingMode.price.amount <?php echo ai_get_currency_rate(); ?>}} <?php echo get_woocommerce_currency_symbol(); ?></h2>
 					<div><strong>Stock: </strong>{{stock.available}} <small>{{stock.unit}}</small></div>
 				</div>
 			</div>
