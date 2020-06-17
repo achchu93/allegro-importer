@@ -5,6 +5,8 @@
 	$(function () {
 
 		var activeCategory;
+		var globalFilters;
+		var offset = 0;
 
 		$('.filter-container').on('change','.category-item [type=checkbox]', function(e){
 			if($(this).is(":checked")){
@@ -54,20 +56,24 @@
 				return;
 			}
 
-			var filters = "category.id=" + activeCategory + "&include=all";
+			globalFilters = "category.id=" + activeCategory + "&include=all";
 			var serialized = $("#filters").find('[type=text],[type=number],[type=checkbox],[type=radio]').filter(function () {
 				return $(this).val();
 			}).serialize();
 			if( $.trim(serialized) !== '' ){
-				filters += "&"+serialized;
+				globalFilters += "&"+serialized;
 			}
+
+			offset = 0;
+			$("#grids").html("");
+			$("#pagination").addClass("is-hidden");
 
 			$.ajax({
 				url: ajaxurl,
 				method: 'POST',
 				data: {
 					action: "get_allegro_offers",
-					filters: filters
+					filters: globalFilters
 				}
 			}).then(function(response){
 				var list = "";
@@ -76,9 +82,14 @@
 						var source = $("#temp-product-grid").html();
 						var template = Handlebars.compile(source);
 						list += template(product);
+						offset++;
 					});
 
-					$("#grids").html("").html(list);
+					$("#grids").html(list);
+					
+					if( response.items.promoted.length >= 10 ){
+						$("#pagination").removeClass("is-hidden");
+					}
 				}
 
 				var filters = "";
@@ -136,6 +147,47 @@
 				loadingContainer.unblock();
 			});
 
+
+		});
+
+		$("#pagination").on('click', '.button', function(){
+
+			$("#grids").html("");
+			$("#pagination").addClass("is-hidden");
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: {
+					action: "get_allegro_offers",
+					filters: globalFilters + "&offset=" + offset
+				}
+			}).then(function (response) {
+				var list = "";
+				if (response.items.promoted.length) {
+					$.each(response.items.promoted, function (i, product) {
+						var source = $("#temp-product-grid").html();
+						var template = Handlebars.compile(source);
+						list += template(product);
+						offset++;
+					});
+
+					$("#grids").html(list);
+
+					if (response.items.promoted.length >= 10) {
+						$("#pagination").removeClass("is-hidden");
+					}
+				}
+
+				var filters = "";
+				if (response.filters && response.filters.length) {
+					var source = $("#temp-filters").html();
+					var template = Handlebars.compile(source);
+					filters += template({ filters: response.filters });
+
+					$("#filters").html(filters);
+				}
+			});
 
 		});
 	});

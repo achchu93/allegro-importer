@@ -33,5 +33,5 @@ $categories = !empty($response->categories) ? $response->categories : [];
 		<?php _e( "Will be available on initial product load", "allegro-import" ) ?>
 	</div>
 
-	<button class="button is-primary is-normal" id="filter-btn">Apply Filter</button>
+	<button class="button is-primary is-normal mt-2" id="filter-btn">Apply Filter</button>
 </div>

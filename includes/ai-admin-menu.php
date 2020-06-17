@@ -29,7 +29,7 @@ class AI_Admin_Menu {
 	public function admin_page_scripts(){
 		wp_register_style( 
 			'bulmacss', 
-			'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' 
+			'https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css' 
 		);
 		wp_register_style( 
 			'bulmacss-accordion', 

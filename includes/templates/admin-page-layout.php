@@ -33,6 +33,9 @@
 				<div id="grids">
 
 				</div>
+				<div id="pagination" class="is-hidden has-text-centered">
+					<button class="button is-info mt-4">Next</button>
+				</div>
 			</div>
 		</div>
 	</div>
