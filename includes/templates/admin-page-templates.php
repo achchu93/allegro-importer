@@ -16,7 +16,7 @@
 		{{#if permalink}}
 		<div class="tags has-addons">
 			<span class="tag is-success">Imported</span>
-			<span class="tag is-success is-light"><a href="{{permalink}}">View</a></span>
+			<span class="tag is-success is-light"><a href="{{permalink}}" target="_blank">View</a></span>
     	</div>
 		{{else}}
 		<input type="checkbox" value="{{id}}" class="offer-id">
@@ -45,7 +45,7 @@
 	<div class="tags has-addons">
 		{{#if url}}
 		<span class="tag is-success">Imported</span>
-		<span class="tag is-success is-light"><a href="{{url}}">View</a></span>
+		<span class="tag is-success is-light"><a href="{{url}}" target="_blank">View</a></span>
 		{{else}}
 		<span class="tag is-danger">Import Failed!</span>
 		{{/if}}
