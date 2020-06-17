@@ -65,7 +65,8 @@
 			}
 
 			offset = 0;
-			$("#grids").html("");
+			$("#grids").html("").block();
+			$("html, body").animate({ scrollTop: 0 }, 500);
 			$("#pagination").addClass("is-hidden");
 
 			$.ajax({
@@ -152,7 +153,8 @@
 
 		$("#pagination").on('click', '.button', function(){
 
-			$("#grids").html("");
+			$("#grids").html("").block();
+			$("html, body").animate({ scrollTop: 0 }, 500);
 			$("#pagination").addClass("is-hidden");
 
 			$.ajax({
