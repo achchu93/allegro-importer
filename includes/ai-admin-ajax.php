@@ -98,7 +98,6 @@ class AI_Admin_Ajax {
 					array(
 						'name' 		  		=> $summary->schema->name,
 						'description' 		=> $description,
-						'short_description' => $summary->schema->description,
 						'sku'				=> $summary->schema->sku,
 						'regular_price'     => ai_get_site_price( !empty( $original_price ) ? $original_price : $regular_price ),
 						'sale_price'		=> !empty( $original_price ) ? ai_get_site_price($regular_price) : '' ,
