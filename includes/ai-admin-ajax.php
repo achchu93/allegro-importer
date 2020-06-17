@@ -34,8 +34,19 @@ class AI_Admin_Ajax {
 	public function get_allegro_offers(){
 		
 		$endpoint = !empty($_POST['filters']) ? "/offers/listing?limit=10&".$_POST['filters'] : "/offers/listing";
+		$offers   = $this->api->get( $endpoint );
 
-		wp_send_json( $this->api->get( $endpoint ) );
+		if( property_exists( $offers, 'items' ) ){
+
+			foreach( $offers->items->promoted as $key => $item ){
+
+				$product_id                               = wc_get_product_id_by_sku( $item->id );
+				$offers->items->promoted[$key]->permalink = get_permalink( $product_id );
+			}
+
+		}
+
+		wp_send_json( $offers );
 	}
 
 
