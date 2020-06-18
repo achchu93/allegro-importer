@@ -59,9 +59,10 @@ class AI_Admin_Ajax {
 
 	public function import_allegro_products(){
 
-		$ids      = $_POST['product_ids'];
-		$price    = $_POST['price'];
-		$products = array();
+		$ids        = !empty( $_POST['product_ids'] ) ? $_POST['product_ids'] : array();
+		$price      = $_POST['price'];
+		$products   = array();
+		$categories = !empty( $_POST['categories'] ) ? $_POST['categories'] : array();
 
 		foreach($ids as $id){
 
@@ -106,7 +107,8 @@ class AI_Admin_Ajax {
 						'stock_status'      => $summary->notifyAndWatch->quantity > 1 ? "instock" : "outofstock",
 						'parent_id'			=> 0,
 						'image_id'			=> ai_add_media_from_url($summary->schema->image),
-						'gallery_image_ids'	=> []
+						'gallery_image_ids'	=> [],
+						'category_ids'      => $categories
 					)
 				);
 

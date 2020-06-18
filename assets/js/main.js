@@ -137,22 +137,25 @@
 
 			$.ajax({
 				url: ajaxurl,
-				method: 'POST',
+				method: "POST",
 				data: {
-					action: 'import_allegro_products',
+					action: "import_allegro_products",
 					product_ids: ids,
-					price: $("#price-increment").val()
+					price: $("#price-increment").val(),
+					categories: $('input[name="tax_input[product_cat][]"]')
+								.filter(':checked')
+								.map(function(){ return $(this).val() })
+								.toArray()
 				},
-				timeout: 60000
-			}).then(function(response){
+				timeout: 60000,
+			}).then(function (response) {
+				$.each(response, function (id, url) {
+				var checkbox = $(".offer-id[value=" + id + "]");
+				var source = $("#temp-import-url").html();
+				var template = Handlebars.compile(source);
 
-				$.each(response, function(id, url){
-					var checkbox = $('.offer-id[value=' + id + ']');
-					var source = $("#temp-import-url").html();
-					var template = Handlebars.compile(source);
-
-					checkbox.prop('checked', false).trigger('change');
-					checkbox.replaceWith(template({url: url}));
+				checkbox.prop("checked", false).trigger("change");
+				checkbox.replaceWith(template({ url: url }));
 				});
 
 				loadingContainer.unblock();

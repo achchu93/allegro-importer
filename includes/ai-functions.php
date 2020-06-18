@@ -57,14 +57,17 @@ function ai_create_product($data){
 		'stock_status',
 		'parent_id',
 		'image_id',
-		'gallery_image_ids'
+		'gallery_image_ids',
+		'category_ids'
 	);
 
 
 	$product = new \WC_Product();
 
 	foreach($props as $prop){
-		$props[$prop] = $data[$prop];
+		if( !empty( $data[$prop] ) ){
+			$props[$prop] = $data[$prop]; 
+		}
 	}
 	$product->set_props($props);
 

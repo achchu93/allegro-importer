@@ -21,6 +21,15 @@
 			<p class="control">
 				<button id="select-all" class="button is-info is-light">Select All</button>
 			</p>
+			<div>
+				<ul class="cat-checklist product_cat-checklist">
+					<?php
+					wp_terms_checklist( 0, array(
+						'taxonomy' => 'product_cat'
+					) );
+					?>
+				</ul>
+			</div>
 		</div>
 	</div>
 
