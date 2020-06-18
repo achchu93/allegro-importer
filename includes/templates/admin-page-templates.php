@@ -18,9 +18,8 @@
 			<span class="tag is-success">Imported</span>
 			<span class="tag is-success is-light"><a href="{{permalink}}" target="_blank">View</a></span>
     	</div>
-		{{else}}
-		<input type="checkbox" value="{{id}}" class="offer-id">
 		{{/if}}
+		<input type="checkbox" value="{{id}}" class="offer-id">
 		<article class="media">
 			<div class="media-left">
 				<figure class="image is-128x128">

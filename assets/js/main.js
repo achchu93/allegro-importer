@@ -150,12 +150,13 @@
 				timeout: 60000,
 			}).then(function (response) {
 				$.each(response, function (id, url) {
-				var checkbox = $(".offer-id[value=" + id + "]");
-				var source = $("#temp-import-url").html();
-				var template = Handlebars.compile(source);
+					var checkbox = $(".offer-id[value=" + id + "]");
+					var source = $("#temp-import-url").html();
+					var template = Handlebars.compile(source);
 
-				checkbox.prop("checked", false).trigger("change");
-				checkbox.replaceWith(template({ url: url }));
+					checkbox.prev(".tags").remove();
+					checkbox.prop("checked", false).trigger("change");
+					checkbox.replaceWith(template({ url: url }));
 				});
 
 				loadingContainer.unblock();

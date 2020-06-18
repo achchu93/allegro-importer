@@ -93,10 +93,11 @@ class AI_Admin_Ajax {
 				include("templates/product-description-content.php");
 				$description = ob_get_contents();
 				ob_end_clean();
-				
 
+				$product    = wc_get_product( wc_get_product_id_by_sku( $summary->schema->sku ) );
 				$product_id = ai_create_product(
 					array(
+						'id'                => $product ? $product->get_id() : 0,
 						'name' 		  		=> $summary->schema->name,
 						'description' 		=> $description,
 						'sku'				=> $summary->schema->sku,
@@ -106,7 +107,7 @@ class AI_Admin_Ajax {
 						'stock_quantity'	=> $summary->notifyAndWatch->quantity,
 						'stock_status'      => $summary->notifyAndWatch->quantity > 1 ? "instock" : "outofstock",
 						'parent_id'			=> 0,
-						'image_id'			=> ai_add_media_from_url($summary->schema->image),
+						'image_id'			=> $product ? $product->get_image_id() : ai_add_media_from_url($summary->schema->image),
 						'gallery_image_ids'	=> [],
 						'category_ids'      => $categories
 					)

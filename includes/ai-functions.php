@@ -61,8 +61,7 @@ function ai_create_product($data){
 		'category_ids'
 	);
 
-
-	$product = new \WC_Product();
+	$product    = !empty( $data['id'] ) ? new \WC_Product( $data['id'] ) : new \WC_Product();
 
 	foreach($props as $prop){
 		if( !empty( $data[$prop] ) ){
